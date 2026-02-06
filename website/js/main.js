@@ -175,9 +175,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initBackToTop();
   initContactLinks();
   renderServicos();
-  renderPortfolio();
-  initPortfolioFilter();
-  initPortfolioModal();
+  // Portfolio removido
+  // renderPortfolio();
+  // initPortfolioFilter();
+  // initPortfolioModal();
   initContactForm();
   updateFooterYear();
   updateContactInfo();
@@ -666,7 +667,8 @@ function initContactForm() {
     e.preventDefault();
     
     let isValid = true;
-    inputs.forEach(input => {
+    const requiredInputs = form.querySelectorAll('.form-input[required]');
+    requiredInputs.forEach(input => {
       if (!validateField(input)) {
         isValid = false;
       }
@@ -682,8 +684,8 @@ function initContactForm() {
       
       window.open(url, '_blank', 'noopener,noreferrer');
       
-      // Opcional: limpar formulário após envio
-      // form.reset();
+      // Limpar formulário após envio
+      form.reset();
     }
   });
 }
