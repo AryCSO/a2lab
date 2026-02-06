@@ -9,6 +9,7 @@
 :root {
   /* Colors - Dark Theme (default) */
   --color-bg-primary: #1a1a1a;
+  --color-bg-primary-rgb: 26, 26, 26;
   --color-bg-secondary: #242424;
   --color-bg-tertiary: #2e2e2e;
   --color-bg-elevated: #333333;
@@ -82,6 +83,7 @@
 /* Light Theme */
 [data-theme="light"] {
   --color-bg-primary: #f5f5f5;
+  --color-bg-primary-rgb: 245, 245, 245;
   --color-bg-secondary: #ffffff;
   --color-bg-tertiary: #e8e8e8;
   --color-bg-elevated: #ffffff;
@@ -464,7 +466,9 @@ ul, ol {
     align-items: stretch;
     gap: 0;
     padding: var(--space-lg);
-    background: var(--color-bg-primary);
+    background: rgba(var(--color-bg-primary-rgb), 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid var(--color-border);
     transform: translateX(-100%);
     opacity: 0;
