@@ -296,7 +296,7 @@ ul, ol {
 }
 
 .header__logo img {
-  height: 55px;
+  height: 66px;
   width: auto;
 }
 
@@ -1182,7 +1182,7 @@ ul, ol {
 }
 
 .footer__logo {
-  height: 55px;
+  height: 66px;
   width: auto;
   margin-bottom: var(--space-sm);
 }
