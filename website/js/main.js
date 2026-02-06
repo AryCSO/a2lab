@@ -23,12 +23,15 @@ const CONFIG = {
   
   // Template de mensagem do formulário
   WHATSAPP_MENSAGEM_FORM: (nome, telefone, equipamento, mensagem) => {
-    return `Olá! Vim pelo site da A2 LAB e gostaria de um orçamento.
+    let msg = `Olá! Vim pelo site da A2 LAB e gostaria de um orçamento.
 
 *Nome:* ${nome}
-*Telefone:* ${telefone}
-*Equipamento:* ${equipamento}
-*Descrição:* ${mensagem || 'Não informado'}`;
+*Equipamento:* ${equipamento}`;
+    if (telefone) {
+      msg += `\n*Telefone:* ${telefone}`;
+    }
+    msg += `\n*Descrição:* ${mensagem || 'Não informado'}`;
+    return msg;
   }
 };
 
@@ -186,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initTheme() {
   const themeToggle = document.getElementById('theme-toggle');
+  const themeToggleMobile = document.getElementById('theme-toggle-mobile');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
   
   // Atualiza os favicons baseado no tema
@@ -204,6 +208,16 @@ function initTheme() {
     if (faviconApple) faviconApple.href = `assets/brand/${faviconFile}`;
   }
   
+  // Função para alternar tema
+  function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateFavicons(newTheme);
+  }
+  
   // Verificar tema salvo ou preferência do sistema
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme) {
@@ -216,15 +230,15 @@ function initTheme() {
     updateFavicons('dark');
   }
   
-  // Toggle de tema
-  themeToggle.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    updateFavicons(newTheme);
-  });
+  // Toggle de tema (desktop)
+  if (themeToggle) {
+    themeToggle.addEventListener('click', toggleTheme);
+  }
+  
+  // Toggle de tema (mobile)
+  if (themeToggleMobile) {
+    themeToggleMobile.addEventListener('click', toggleTheme);
+  }
   
   // Ouvir mudanças na preferência do sistema
   prefersDark.addEventListener('change', (e) => {
@@ -244,24 +258,47 @@ function initNavigation() {
   const header = document.getElementById('header');
   const navToggle = document.getElementById('nav-toggle');
   const navMenu = document.getElementById('nav-menu');
+  const navOverlay = document.getElementById('nav-overlay');
   const navLinks = document.querySelectorAll('.nav__link');
+  
+  // Função para fechar o menu
+  function closeMenu() {
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'Abrir menu de navegação');
+    navMenu.classList.remove('is-open');
+    if (navOverlay) navOverlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+  
+  // Função para abrir o menu
+  function openMenu() {
+    navToggle.setAttribute('aria-expanded', 'true');
+    navToggle.setAttribute('aria-label', 'Fechar menu de navegação');
+    navMenu.classList.add('is-open');
+    if (navOverlay) navOverlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
   
   // Mobile menu toggle
   navToggle.addEventListener('click', () => {
     const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
-    navToggle.setAttribute('aria-expanded', !isOpen);
-    navToggle.setAttribute('aria-label', isOpen ? 'Abrir menu de navegação' : 'Fechar menu de navegação');
-    navMenu.classList.toggle('is-open', !isOpen);
-    document.body.style.overflow = !isOpen ? 'hidden' : '';
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
+  
+  // Fechar menu ao clicar no overlay
+  if (navOverlay) {
+    navOverlay.addEventListener('click', closeMenu);
+  }
   
   // Fechar menu ao clicar em um link
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       // Fechar menu mobile
-      navToggle.setAttribute('aria-expanded', 'false');
-      navMenu.classList.remove('is-open');
-      document.body.style.overflow = '';
+      closeMenu();
       
       // Smooth scroll com offset
       const targetId = link.getAttribute('href');
@@ -306,9 +343,7 @@ function initNavigation() {
   // Fechar menu ao pressionar Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
-      navToggle.setAttribute('aria-expanded', 'false');
-      navMenu.classList.remove('is-open');
-      document.body.style.overflow = '';
+      closeMenu();
       navToggle.focus();
     }
   });
@@ -613,25 +648,6 @@ function initContactForm() {
   
   const inputs = form.querySelectorAll('.form-input');
   
-  // Máscaras para telefone
-  const telefoneInput = document.getElementById('form-telefone');
-  if (telefoneInput) {
-    telefoneInput.addEventListener('input', (e) => {
-      let value = e.target.value.replace(/\D/g, '');
-      
-      if (value.length <= 11) {
-        if (value.length > 2) {
-          value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
-        }
-        if (value.length > 10) {
-          value = value.slice(0, 10) + '-' + value.slice(10);
-        }
-      }
-      
-      e.target.value = value.slice(0, 15);
-    });
-  }
-  
   // Validação em tempo real
   inputs.forEach(input => {
     input.addEventListener('blur', () => {
@@ -658,11 +674,10 @@ function initContactForm() {
     
     if (isValid) {
       const nome = document.getElementById('form-nome').value.trim();
-      const telefone = document.getElementById('form-telefone').value.trim();
       const equipamento = document.getElementById('form-equipamento').value;
       const mensagem = document.getElementById('form-mensagem').value.trim();
       
-      const whatsappMensagem = CONFIG.WHATSAPP_MENSAGEM_FORM(nome, telefone, equipamento, mensagem);
+      const whatsappMensagem = CONFIG.WHATSAPP_MENSAGEM_FORM(nome, '', equipamento, mensagem);
       const url = `https://wa.me/${CONFIG.WHATSAPP_NUMERO}?text=${encodeURIComponent(whatsappMensagem)}`;
       
       window.open(url, '_blank', 'noopener,noreferrer');
@@ -692,13 +707,6 @@ function validateField(input) {
       case 'nome':
         if (input.value.trim().length < 3) {
           errorMessage = 'Nome deve ter pelo menos 3 caracteres.';
-        }
-        break;
-      
-      case 'telefone':
-        const telefoneClean = input.value.replace(/\D/g, '');
-        if (telefoneClean.length < 10 || telefoneClean.length > 11) {
-          errorMessage = 'Telefone inválido. Use o formato (00) 00000-0000.';
         }
         break;
       

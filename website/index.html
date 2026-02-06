@@ -97,20 +97,9 @@
       </a>
       
       <nav class="nav" id="nav" aria-label="Navegação principal">
-        <button 
-          class="nav__toggle" 
-          id="nav-toggle" 
-          aria-expanded="false" 
-          aria-controls="nav-menu"
-          aria-label="Abrir menu de navegação"
-        >
-          <span class="nav__toggle-icon"></span>
-        </button>
-        
         <ul class="nav__menu" id="nav-menu" role="menubar">
           <li role="none"><a href="#sobre" class="nav__link" role="menuitem">Sobre</a></li>
           <li role="none"><a href="#servicos" class="nav__link" role="menuitem">Serviços</a></li>
-          <li role="none"><a href="#portfolio" class="nav__link" role="menuitem">Portfólio</a></li>
           <li role="none"><a href="#processo" class="nav__link" role="menuitem">Processo</a></li>
           <li role="none"><a href="#contato" class="nav__link" role="menuitem">Contato</a></li>
         </ul>
@@ -138,9 +127,22 @@
           </svg>
           WhatsApp
         </a>
+        
+        <button 
+          class="nav__toggle" 
+          id="nav-toggle" 
+          aria-expanded="false" 
+          aria-controls="nav-menu"
+          aria-label="Abrir menu de navegação"
+        >
+          <span class="nav__toggle-icon"></span>
+        </button>
       </div>
     </div>
   </header>
+  
+  <!-- Mobile Nav Overlay -->
+  <div class="nav__overlay" id="nav-overlay"></div>
   
   <!-- Main Content -->
   <main id="main-content">
@@ -281,26 +283,6 @@
         
         <div class="servicos__grid" id="servicos-grid">
           <!-- Cards são inseridos via JavaScript -->
-        </div>
-      </div>
-    </section>
-    
-    <!-- Portfólio Section -->
-    <section class="section portfolio" id="portfolio">
-      <div class="container">
-        <header class="section__header">
-          <span class="section__label">Nosso trabalho</span>
-          <h2 class="section__title">Portfólio</h2>
-        </header>
-        
-        <div class="portfolio__tabs" role="tablist" aria-label="Categorias do portfólio">
-          <button class="portfolio__tab active" role="tab" aria-selected="true" data-filter="all">Todos</button>
-          <button class="portfolio__tab" role="tab" aria-selected="false" data-filter="reparo">Reparos</button>
-          <button class="portfolio__tab" role="tab" aria-selected="false" data-filter="build">Builds</button>
-        </div>
-        
-        <div class="portfolio__grid" id="portfolio-grid">
-          <!-- Itens são inseridos via JavaScript -->
         </div>
       </div>
     </section>
@@ -476,7 +458,6 @@
       <div class="footer__links">
         <a href="#sobre">Sobre</a>
         <a href="#servicos">Serviços</a>
-        <a href="#portfolio">Portfólio</a>
         <a href="#processo">Processo</a>
         <a href="#contato">Contato</a>
       </div>
@@ -500,20 +481,21 @@
     </svg>
   </button>
   
-  <!-- Portfolio Modal -->
-  <dialog class="modal" id="portfolio-modal">
-    <div class="modal__content">
-      <button class="modal__close" id="modal-close" aria-label="Fechar modal">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
-      <div class="modal__body" id="modal-body">
-        <!-- Content inserted via JS -->
-      </div>
-    </div>
-  </dialog>
+  <!-- Mobile Theme Toggle (floating) -->
+  <button 
+    class="theme-toggle-mobile" 
+    id="theme-toggle-mobile" 
+    aria-label="Alternar tema claro/escuro"
+    title="Alternar tema"
+  >
+    <svg class="theme-toggle__icon theme-toggle__icon--dark" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <circle cx="12" cy="12" r="5"/>
+      <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+    </svg>
+    <svg class="theme-toggle__icon theme-toggle__icon--light" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+  </button>
   
   <!-- Scripts -->
   <script src="js/main.js"></script>

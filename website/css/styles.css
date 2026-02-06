@@ -75,6 +75,8 @@
   --transition-slow: 300ms ease;
   
   /* Z-index */
+  --z-dropdown: 50;
+  --z-sticky: 90;
   --z-header: 100;
   --z-modal: 200;
   --z-tooltip: 300;
@@ -379,6 +381,34 @@ ul, ol {
   transform: rotate(-45deg) translate(4px, -5px);
 }
 
+/* Nav overlay - hidden on desktop */
+.nav__overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(var(--color-bg-primary-rgb), 0.85);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-slow), visibility var(--transition-slow);
+  z-index: calc(var(--z-header) - 1);
+}
+
+.nav__overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (max-width: 767px) {
+  .nav__overlay {
+    display: block;
+  }
+}
+
 .nav__menu {
   display: flex;
   align-items: center;
@@ -456,6 +486,16 @@ ul, ol {
     display: flex;
   }
   
+  /* Hide theme toggle in header on mobile - it becomes floating */
+  .header__actions .theme-toggle {
+    display: none;
+  }
+  
+  /* Hide WhatsApp button on mobile header */
+  .header__cta {
+    display: none !important;
+  }
+  
   .nav__menu {
     position: fixed;
     top: var(--header-height);
@@ -466,14 +506,13 @@ ul, ol {
     align-items: stretch;
     gap: 0;
     padding: var(--space-lg);
-    background: rgba(var(--color-bg-primary-rgb), 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: transparent;
     border-top: 1px solid var(--color-border);
     transform: translateX(-100%);
     opacity: 0;
     visibility: hidden;
     transition: transform var(--transition-slow), opacity var(--transition-slow), visibility var(--transition-slow);
+    z-index: var(--z-header);
   }
   
   .nav__menu.is-open {
@@ -486,6 +525,37 @@ ul, ol {
     padding: var(--space-md);
     font-size: var(--text-lg);
     border-bottom: 1px solid var(--color-border);
+  }
+}
+
+/* Floating theme toggle for mobile */
+.theme-toggle-mobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .theme-toggle-mobile {
+    position: fixed;
+    bottom: var(--space-lg);
+    right: var(--space-lg);
+    z-index: var(--z-sticky);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-bg-elevated);
+    color: var(--color-text-primary);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  
+  .theme-toggle-mobile:hover,
+  .theme-toggle-mobile:focus-visible {
+    transform: scale(1.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
 }
 
