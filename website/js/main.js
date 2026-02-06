@@ -188,12 +188,32 @@ function initTheme() {
   const themeToggle = document.getElementById('theme-toggle');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
   
+  // Atualiza os favicons baseado no tema
+  function updateFavicons(theme) {
+    const isDark = theme === 'dark' || (theme === null && prefersDark.matches);
+    const faviconFile = isDark ? 'a2white.png' : 'a2black.png';
+    
+    const favicon32 = document.getElementById('favicon-32');
+    const favicon16 = document.getElementById('favicon-16');
+    const faviconShortcut = document.getElementById('favicon-shortcut');
+    const faviconApple = document.getElementById('favicon-apple');
+    
+    if (favicon32) favicon32.href = `assets/brand/${faviconFile}`;
+    if (favicon16) favicon16.href = `assets/brand/${faviconFile}`;
+    if (faviconShortcut) faviconShortcut.href = `assets/brand/${faviconFile}`;
+    if (faviconApple) faviconApple.href = `assets/brand/${faviconFile}`;
+  }
+  
   // Verificar tema salvo ou preferência do sistema
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme) {
     document.documentElement.setAttribute('data-theme', savedTheme);
+    updateFavicons(savedTheme);
   } else if (!prefersDark.matches) {
     document.documentElement.setAttribute('data-theme', 'light');
+    updateFavicons('light');
+  } else {
+    updateFavicons('dark');
   }
   
   // Toggle de tema
@@ -203,12 +223,15 @@ function initTheme() {
     
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+    updateFavicons(newTheme);
   });
   
   // Ouvir mudanças na preferência do sistema
   prefersDark.addEventListener('change', (e) => {
     if (!localStorage.getItem('theme')) {
-      document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+      const newTheme = e.matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      updateFavicons(newTheme);
     }
   });
 }

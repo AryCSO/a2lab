@@ -24,11 +24,11 @@
   <meta name="twitter:description" content="Manutenção profissional com padrão de laboratório. Diagnóstico claro, testes antes da entrega e garantia.">
   <meta name="twitter:image" content="https://a2lab.com.br/assets/brand/og-image.png">
   
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/a2.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/a2.png">
-  <link rel="shortcut icon" href="assets/brand/a2.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/brand/a2.png">
+  <!-- Favicon (dinâmico via JS) -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/a2white.png" id="favicon-32">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/a2white.png" id="favicon-16">
+  <link rel="shortcut icon" href="assets/brand/a2white.png" id="favicon-shortcut">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/brand/a2white.png" id="favicon-apple">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,7 +50,7 @@
     "email": "contato@a2lab.com.br",
     "address": {
       "@type": "PostalAddress",
-      
+
       "streetAddress": "Rua Exemplo, 123",
       "addressLocality": "Cidade",
       "addressRegion": "UF",
@@ -92,7 +92,8 @@
   <header class="header" id="header">
     <div class="container header__inner">
       <a href="#hero" class="header__logo" aria-label="A2 Lab - Ir para o início">
-        <img src="assets/brand/a2lab.png" alt="A2 Lab" width="167" height="55">
+        <img src="assets/brand/a2techwhite.png" alt="A2 Lab" class="logo-dark" width="167" height="55">
+        <img src="assets/brand/a2techblack.png" alt="A2 Lab" class="logo-light" width="167" height="55">
       </a>
       
       <nav class="nav" id="nav" aria-label="Navegação principal">
@@ -467,7 +468,8 @@
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__brand">
-        <img src="assets/brand/a2lab.png" alt="A2 Lab" width="139" height="47" class="footer__logo">
+        <img src="assets/brand/a2techwhite.png" alt="A2 Lab" width="139" height="47" class="footer__logo logo-dark">
+        <img src="assets/brand/a2techblack.png" alt="A2 Lab" width="139" height="47" class="footer__logo logo-light">
         <p class="footer__tagline">Manutenção e Montagem profissional <br> com padrão de Qualidade.</p>
       </div>
       
