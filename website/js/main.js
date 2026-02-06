@@ -1,5 +1,5 @@
 /**
- * A2 Lab - Main JavaScript
+ * A2 LAB - Main JavaScript
  * Site institucional one-page
  */
 
@@ -19,11 +19,11 @@ const CONFIG = {
   ENDERECO: 'Goiânia - GO',
   
   // Mensagem padrão do WhatsApp
-  WHATSAPP_MENSAGEM_PADRAO: 'Olá! Vim pelo site da A2 Lab e gostaria de um orçamento.',
+  WHATSAPP_MENSAGEM_PADRAO: 'Olá! Vim pelo site da A2 LAB e gostaria de um orçamento.',
   
   // Template de mensagem do formulário
   WHATSAPP_MENSAGEM_FORM: (nome, telefone, equipamento, mensagem) => {
-    return `Olá! Vim pelo site da A2 Lab e gostaria de um orçamento.
+    return `Olá! Vim pelo site da A2 LAB e gostaria de um orçamento.
 
 *Nome:* ${nome}
 *Telefone:* ${telefone}
@@ -449,7 +449,7 @@ function renderServicos() {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const servicoNome = btn.dataset.servicoCta;
-      const mensagem = encodeURIComponent(`Olá! Vim pelo site da A2 Lab e gostaria de um orçamento para ${servicoNome}.`);
+      const mensagem = encodeURIComponent(`Olá! Vim pelo site da A2 LAB e gostaria de um orçamento para ${servicoNome}.`);
       const url = `https://wa.me/${CONFIG.WHATSAPP_NUMERO}?text=${mensagem}`;
       window.open(url, '_blank', 'noopener,noreferrer');
     });
